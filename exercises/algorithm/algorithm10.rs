@@ -1,10 +1,9 @@
 /*
-	graph
-	This problem requires you to implement a basic graph functio
+    graph
+    This problem requires you to implement a basic graph functio
 */
-// I AM NOT DONE
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{hash_map::Entry, HashMap, HashSet};
 use std::fmt;
 #[derive(Debug, Clone)]
 pub struct NodeNotInGraph;
@@ -28,9 +27,6 @@ impl Graph for UndirectedGraph {
     fn adjacency_table(&self) -> &HashMap<String, Vec<(String, i32)>> {
         &self.adjacency_table
     }
-    fn add_edge(&mut self, edge: (&str, &str, i32)) {
-        //TODO
-    }
 }
 pub trait Graph {
     fn new() -> Self;
@@ -38,10 +34,31 @@ pub trait Graph {
     fn adjacency_table(&self) -> &HashMap<String, Vec<(String, i32)>>;
     fn add_node(&mut self, node: &str) -> bool {
         //TODO
-		true
+        match self.adjacency_table_mutable().entry(String::from(node)) {
+            Entry::Occupied(_) => false,
+            Entry::Vacant(v) => {
+                v.insert(Vec::default());
+                true
+            }
+        }
     }
     fn add_edge(&mut self, edge: (&str, &str, i32)) {
-        //TODO
+        let from = String::from(edge.0);
+        let to = String::from(edge.1);
+        let val = edge.2;
+
+        self.add_node(&from);
+        self.add_node(&to);
+
+        self.adjacency_table_mutable()
+            .get_mut(&from)
+            .unwrap()
+            .push((to.clone(), val));
+
+        self.adjacency_table_mutable()
+            .get_mut(&to)
+            .unwrap()
+            .push((from, val));
     }
     fn contains(&self, node: &str) -> bool {
         self.adjacency_table().get(node).is_some()
@@ -82,3 +99,4 @@ mod test_undirected_graph {
         }
     }
 }
+
