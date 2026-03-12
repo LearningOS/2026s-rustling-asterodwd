@@ -3,7 +3,7 @@
 // This is a quiz for the following sections:
 // - Variables
 // - Functions
-// - If
+// - f
 //
 // Mary is buying apples. The price of an apple is calculated as follows:
 // - An apple costs 2 rustbucks.
@@ -13,10 +13,8 @@
 //
 // No hints this time ;)
 
-
 // Put your function here!
 fn calculate_price_of_apples(number: i32) -> i32 {
-
     if number > 40 {
         number
     } else {
